@@ -92,9 +92,9 @@ router.post('/signup', async (req, res, next) => {
       },
       type: Sequelize.QueryTypes.SELECT
     })
-    return res.status(200).json({ message: "Đăng ký thành công"})
+    return res.status(200).json({ message: "Đăng ký thành công",code:101})
   } catch (e) {
-    return res.status(200).json({ message: "Tài khoản hoặc mật khẩu đã tồn tại"})
+    return res.status(200).json({ message: "Tài khoản hoặc mật khẩu đã tồn tại",code:102}) // Tài khoản hoặc mật khẩu đã tồn tại
   }
 })
 module.exports = router;
