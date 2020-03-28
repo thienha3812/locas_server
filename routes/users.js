@@ -21,7 +21,7 @@ router.post('/signin', async (req, res, next) => {
       throw new Error("Tài khoản hoặc mật khẩu không đúng")
     }
   } catch (e) {
-    res.status(200).json({ message: e.toString() })
+    res.status(200).json({ message: "Tài khoản hoặc email đã tồn tại" })
   }
 })
 router.post('/checkusername', async (req, res, next) => {
