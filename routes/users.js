@@ -15,15 +15,15 @@ router.post('/signin', async (req, res, next) => {
         password: password
       },
       type: Sequelize.QueryTypes.SELECT
-    })    
+    })
     if (account.length != 0) {
-      const token = await jwt.sign({ username: account[0].username,id: account[0].ma_nd }, 'secret', { algorithm: 'HS512' })
-      res.status(200).json({ message: "Đăng nhập thành công", token })
+      const token = await jwt.sign({ username: account[0].username, id: account[0].ma_nd }, 'secret', { algorithm: 'HS512' })
+      return res.status(200).json({ message: "Đăng nhập thành công", token, code: 1 })
     } else {
-      throw new Error()
+      return res.status(200).json({ message: "Đăng nhập thất bại", token, code: 0 })
     }
   } catch (e) {
-    res.status(200).json({ message: "Tài khoản hoặc mật khẩu không đúng" })
+    return res.status(500)
   }
 })
 router.post('/checkusername', async (req, res, next) => {
@@ -36,13 +36,12 @@ router.post('/checkusername', async (req, res, next) => {
       type: Sequelize.QueryTypes.SELECT
     })
     if (usernames.length !== 0) {
-      res.status(200).json({ message: "Tài khoản đã tồn tại" })
+      res.status(200).json({ message: "Tài khoản đã tồn tại", code: 1 })
     } else {
-      res.status(200).json({ message: "Tài khoản không tồn tại" })
+      res.status(200).json({ message: "Tài khoản không tồn tại", code: 0 })
     }
-    res.status(200).json()
   } catch (err) {
-    next()
+    return res.status(500)
   }
 })
 router.post('/checkphone', async (req, res, next) => {
@@ -55,12 +54,12 @@ router.post('/checkphone', async (req, res, next) => {
       type: Sequelize.QueryTypes.SELECT
     })
     if (phones.length !== 0) {
-      res.status(200).json({ message: "Sdt đã tồn tại" })
+      return res.status(200).json({ message: "Sdt đã tồn tại", code: 1 })
     } else {
-      res.status(200).json({ message: "Sdt không tồn tại" })
+      return res.status(200).json({ message: "Sdt không tồn tại", code: 0 })
     }
   } catch (err) {
-    next()
+    return res.status(500)
   }
 })
 router.post('/checkemail', async (req, res, next) => {
@@ -73,12 +72,12 @@ router.post('/checkemail', async (req, res, next) => {
       type: Sequelize.QueryTypes.SELECT
     })
     if (emails.length !== 0) {
-      res.status(200).json({ message: "Email đã tồn tại" })
+      return res.status(200).json({ message: "Email đã tồn tại", code: 1 })
     } else {
-      res.status(200).json({ message: "Email không tồn tại" })
+      return res.status(200).json({ message: "Email không tồn tại", code: 0 })
     }
   } catch (err) {
-    next()
+    return res.status(500)
   }
 })
 
@@ -94,22 +93,20 @@ router.post('/signup', async (req, res, next) => {
       },
       type: Sequelize.QueryTypes.INSERT
     })
-    return res.status(200).json({ message: "Đăng ký thành công", code: 101 }) // Đăng ký thành công
+    return res.status(200).json({ message: "Đăng ký thành công", code: 1 }) // Đăng ký thành công
   } catch (e) {
-    return res.status(200).json({ message: "Tài khoản hoặc mật khẩu đã tồn tại", code: 102 }) // Tài khoản hoặc mật khẩu đã tồn tại
+    return res.status(200).json({message : "Tài khoản hoặc email đã tồn tại",code : 0})
   }
 })
 router.post('/updatelastcordinate', async (req, res, next) => {
   try {
     const { cordinate } = req.body
-    const token = req.headers["authorization"]    
+    const token = req.headers["authorization"]
     const decoded = jwt.verify(token, 'secret', (err, decoded) => {
       if (err) throw (err)
-      console.log(decoded)
       return decoded
     })
     const id = decoded.id
-    console.log(decoded)
     await sequelize.query('UPDATE nguoi_dung SET toa_do_sau_cung = :cordinate WHERE ma_nd = :id',
       {
         replacements: {
@@ -117,10 +114,10 @@ router.post('/updatelastcordinate', async (req, res, next) => {
           cordinate: JSON.stringify(cordinate)
         }
       })
-    return res.status(200).json({ message: "Chỉnh sửa thành công", code: 101 })
+    return res.status(200).json({ message: "Chỉnh sửa thành công", code: 1 })
 
   } catch (err) {
-    res.status(200).json({ message: "Lỗi", code: 113 }) //Lỗi không xác định 
+    return res.status(500)
   }
 })
 router.post('/getfavoriteplacesfromuser', async (req, res, next) => {
@@ -137,9 +134,9 @@ router.post('/getfavoriteplacesfromuser', async (req, res, next) => {
       },
       type: Sequelize.QueryTypes.SELECT
     })
-    res.status(200).json(places)
+    return res.status(200).json(places)
   } catch (err) {
-    res.status(200).json({ message: "Lỗi", code: 113 }) //Lỗi không xác định 
+    return res.status(500)
   }
 })
 module.exports = router;
