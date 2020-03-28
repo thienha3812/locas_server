@@ -134,7 +134,7 @@ router.post('/getfavoriteplacesfromuser', async (req, res, next) => {
       },
       type: Sequelize.QueryTypes.SELECT
     })
-    return res.status(200).json(places)
+    return res.status(200).json({places,message:"Lấy danh sách thành công",code :1})
   } catch (err) {
     return res.status(500)
   }
