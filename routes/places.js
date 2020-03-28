@@ -9,7 +9,7 @@ router.get('/all',async(req,res,next)=>{
         const places = await sequelize.query('SELECT * FROM danh_muc_loai_dia_diem',{
             type: Sequelize.QueryTypes.SELECT
         })        
-        return res.status(200).json({message :"Lấy danh sách thành công",code : 101  ,places:places})
+        return res.status(200).json({message:"Lấy danh sách thành công",code : 101,places})
         
     }catch(err){
         res.status(200).json({message : "Lỗi không xác định", error:true})
