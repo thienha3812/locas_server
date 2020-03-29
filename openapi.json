@@ -31,7 +31,34 @@
         "parameters" : [ {
           "name" : "username",
           "in" : "query",
-          "required" : true,
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sđt",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "email",
+          "in" : "query",
+          "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
@@ -58,6 +85,15 @@
         "description" : "This api using for user login",
         "parameters" : [ {
           "name" : "username",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "password",
           "in" : "query",
           "required" : false,
           "style" : "form",
@@ -151,6 +187,7 @@
         }, {
           "name" : "cordinate",
           "in" : "query",
+          "description" : "{ 'lat' : 101,'lng':101}",
           "required" : false,
           "style" : "form",
           "explode" : true
