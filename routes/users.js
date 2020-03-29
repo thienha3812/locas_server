@@ -130,24 +130,23 @@ router.post('/signup', async (req, res, next) => {
     return res.status(200).json({ message: "Tài khoản hoặc email đã tồn tại", code: 0 })
   }
 })
-router.post('/updatelastcordinate', async (req, res, next) => {
+router.post('/updatelastcoordinate', async (req, res, next) => {
   try {
-    const { cordinate } = req.body
+    const { coordinate } = req.body
     const token = req.headers["authorization"]
     const decoded = jwt.verify(token, 'secret', (err, decoded) => {
       if (err) throw (err)
       return decoded
     })
     const id = decoded.id
-    await sequelize.query('UPDATE nguoi_dung SET toa_do_sau_cung = :cordinate WHERE ma_nd = :id',
+    await sequelize.query('UPDATE nguoi_dung SET toa_do_sau_cung = :coordinate WHERE ma_nd = :id',
       {
         replacements: {
           id: id,
-          cordinate: JSON.stringify(cordinate)
+          coordinate: JSON.stringify(coordinate)
         }
       })
     return res.status(200).json({ message: "Chỉnh sửa thành công", code: 1 })
-
   } catch (err) {
     return res.sendStatus(500)
   }
