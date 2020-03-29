@@ -18,9 +18,9 @@ router.post('/signin', async (req, res, next) => {
     })
     if (account.length != 0) {
       const token = await jwt.sign({ username: account[0].username, id: account[0].ma_nd }, 'secret', { algorithm: 'HS512' })
-      return res.status(200).json({ message: "Đăng nhập thành công", token, code: 1 })
+      return res.status(200).json({ message: "Đăng nhập thành công", token,username : account[0].username, code: 1 })
     } else {
-      return res.status(200).json({ message: "Đăng nhập thất bại", token, code: 0 })
+      return res.status(200).json({ message: "Đăng nhập thất bại", code: 0 })
     }
   } catch (e) {
     return res.status(500)
