@@ -1,0 +1,210 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "LOCAS API",
+    "description" : "This api using for Locas",
+    "contact" : {
+      "email" : "thienhamaimai1@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/none379/locas_server/1.0.0",
+    "description" : "Bản mô tả api cho ứng dụng"
+  } ],
+  "tags" : [ {
+    "name" : "app",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "paths" : {
+    "/api/users/signin" : {
+      "post" : {
+        "tags" : [ "app" ],
+        "description" : "This api using for user login",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "user login",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/signup" : {
+      "post" : {
+        "tags" : [ "app" ],
+        "description" : "This api using for user login",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "user login",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/checkphone" : {
+      "post" : {
+        "tags" : [ "app" ],
+        "parameters" : [ {
+          "name" : "phone",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "user login",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/getfavoriteplacesfromuser" : {
+      "post" : {
+        "tags" : [ "app" ],
+        "parameters" : [ {
+          "name" : "Autorization",
+          "in" : "header",
+          "description" : "token",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "user login",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/updatelastcordinate" : {
+      "post" : {
+        "tags" : [ "app" ],
+        "parameters" : [ {
+          "name" : "Autorization",
+          "in" : "header",
+          "description" : "token",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "cordinate",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "nothing",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "The message"
+          },
+          "code" : {
+            "type" : "integer",
+            "description" : "code for status."
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "The message"
+          },
+          "places" : {
+            "type" : "array",
+            "description" : "list places",
+            "items" : {
+              "type" : "object"
+            }
+          },
+          "code" : {
+            "type" : "integer",
+            "description" : "code for status."
+          }
+        }
+      }
+    }
+  }
+}
