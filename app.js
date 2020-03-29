@@ -25,15 +25,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/places',placesRouter);
+app.use('/uploads/:file',async(req,res,next)=>{  
+  try { 
+    return res.sendFile(path.join(__dirname + '/uploads/' + req.params.file),function(err){
+      if(err) throw new Error()
+    })
+  }catch(err){
+    return res.sendStatus(500)
+  }
+})
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function(req, res, next) {  
+  next()
 });
 
 // error handler

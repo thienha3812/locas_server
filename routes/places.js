@@ -12,7 +12,7 @@ router.get('/all',async(req,res,next)=>{
         return res.status(200).json({message:"Lấy danh sách thành công",code : 1,places})
         
     }catch(err){
-        return res.status(500)
+        res.status(500)
     }
 })
 
