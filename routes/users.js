@@ -148,10 +148,11 @@ router.post('/updatelastcoordinate', async (req, res, next) => {
       })
     return res.status(200).json({ message: "Chỉnh sửa thành công", code: 1 })
   } catch (err) {
+    console.log(err)
     return res.sendStatus(500)
   }
 })
-router.post('/getfavoriteplacesfromuser', async (req, res, next) => {
+router.get('/getfavoriteplacesfromuser', async (req, res, next) => {
   try {
     const token = req.headers["authorization"]
     const decoded = jwt.verify(token, 'secret', (err, decoded) => {

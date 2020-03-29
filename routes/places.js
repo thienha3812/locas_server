@@ -37,4 +37,11 @@ router.post('/getplacesfromward',async(req,res,next)=>{
         return res.sendStatus(500)
     }
 })
+router.post('/getplacefrominfor', async (req,res,next)=>{
+    try  {
+
+    }catch(err){
+        const { address_components} = req.body
+    }
+})
 module.exports = router
