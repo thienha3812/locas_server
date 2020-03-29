@@ -147,8 +147,7 @@ router.post('/updatelastcoordinate', async (req, res, next) => {
         }
       })
     return res.status(200).json({ message: "Chỉnh sửa thành công", code: 1 })
-  } catch (err) {
-    console.log(err)
+  } catch (err) {    
     return res.sendStatus(500)
   }
 })
@@ -160,7 +159,7 @@ router.get('/getfavoriteplacesfromuser', async (req, res, next) => {
       return decoded
     })
     const id = decoded.id
-    const places = await sequelize.query('SELECT * FROM nd_yeu_thich_dia_diem WHERE ma_nd = :id ', {
+    const places = await sequelize.query('SELECT * FROM nd_yeu_thich_dia_diem LEFT JOIN dia_diem ON nd_yeu_thich_dia_diem.ma_dd = dia_diem.ma_dd WHERE ma_nd = :id', {
       replacements: {
         id: id
       },
