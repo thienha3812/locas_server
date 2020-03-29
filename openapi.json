@@ -24,7 +24,7 @@
     "description" : "Operations available to regular developers"
   } ],
   "paths" : {
-    "/api/users/signin" : {
+    "/api/users/signup" : {
       "post" : {
         "tags" : [ "app" ],
         "description" : "This api using for user login",
@@ -79,7 +79,7 @@
         }
       }
     },
-    "/api/users/signup" : {
+    "/api/users/sigin" : {
       "post" : {
         "tags" : [ "app" ],
         "description" : "This api using for user login",
