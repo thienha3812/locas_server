@@ -23,4 +23,19 @@ router.post('/addfavoriteforuser',async(req,res,next)=>{
 
     }
 })
+router.post('/getplacesfromward',async(req,res,next)=>{
+    try {
+        const {ward} = req.body
+        const places = await sequelize.query('SELECT * FROM dia_diem WHERE ma_xap = :ward',{
+            replacements : {
+                ward : ward
+            },
+            type : Sequelize.QueryTypes.SELECT
+        })
+        console.log(places)
+        return res.status(200).json({places , code : 1, message:"Lấy danh sách thành công"})
+    }catch(err){
+        return res.sendStatus(500)
+    }
+})
 module.exports = router
