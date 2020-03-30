@@ -152,7 +152,7 @@ router.get('/getfavoriteplacesfromuser', async (req, res, next) => {
       return decoded
     })
     const id = decoded.id
-    const places = await sequelize.query('SELECT * FROM nd_yeu_thich_dia_diem LEFT JOIN dia_diem ON nd_yeu_thich_dia_diem.ma_dd = dia_diem.ma_dd WHERE ma_nd = :id', {
+    const places = await sequelize.query('SELECT dia_diem.*,AVG(danh_gia.rating) as rating, count(danh_gia.rating) as count FROM dia_diem LEFT JOIN danh_gia ON dia_diem.ma_dd = danh_gia.ma_dd LEFT JOIN nd_yeu_thich_dia_diem on nd_yeu_thich_dia_diem.ma_dd = dia_diem.ma_dd WHERE nd_yeu_thich_dia_diem.ma_nd = :id GROUP BY dia_diem.ma_dd', {
       replacements: {
         id: id
       },
