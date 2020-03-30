@@ -31,12 +31,30 @@ router.post('/signin', async (req, res, next) => {
     return res.sendStatus(500)
   }
 })
-router.post('/updateavatar',upload.single('avatar'),async(req,res,next)=>{
+router.post('/updateavatar', upload.single('avatar'), async (req, res, next) => {
   try {
-      const avatar = req.file
-      const  avatarPath = require('path').join('./uploads').concat(uuid.v4() + req)
-  }catch(err){
-
+    const token = req.headers["authorization"]
+    const decoded = jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) throw (err)
+      return decoded
+    })
+    const user_id = decoded.id
+    //
+    const avatar = req.file
+    await sequelize.query
+    const pathAvatar = path.join('./uploads/').concat(uuid.v4() + path.extname(avatar.originalname))
+    //
+    sequelize.query('UPDATE nguoi_dung SET avatar = :avatar WHERE ma_nd = :user_id',{
+      replacements:{
+        avatar : "http://149.28.145.107:8000/" + pathAvatar,
+        user_id
+      }
+    })    
+    fs.writeFileSync(pathAvatar, avatar.buffer)
+    return res.json({message : "Chỉnh sửa ảnh thành công",code : 1})
+  } catch (err) {
+    console.log(err)
+    return res.sendStatus(500)
   }
 })
 router.post('/updateprofile', async (req, res, next) => {
