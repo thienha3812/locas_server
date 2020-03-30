@@ -5,7 +5,7 @@ const fs = require('fs')
 const uuid = require('uuid');
 const path = require('path')
 const jwt = require('jsonwebtoken')
-
+require('dotenv').config()
 
 /// Thêm địa điểm từ người dùng
 exports.insertPlaceFromUser = async (req, res, next) => {
@@ -36,12 +36,12 @@ exports.insertPlaceFromUser = async (req, res, next) => {
                 ten_dd: ten_dd,
                 mo_ta: mo_ta,
                 toa_do: toa_do,
-                logo: logo != null ? 'http://149.28.145.107:8000/' + logoPath : '',
+                logo: logo != null ? process.env.IP_SERVER  + logoPath : '',
                 gio_mo_cua: gio_mo_cua,
                 gio_dong_cua: gio_dong_cua,
                 nguoi_tao: user_id,
                 ma_xap: ma_xap,
-                hinh_anh: 'http://149.28.145.107:8000/' + imagePath,
+                hinh_anh: process.env.IP_SERVER + imagePath,
                 ma_dm: ma_dm,
                 dia_chi: dia_chi,
                 luoc_su: luoc_su

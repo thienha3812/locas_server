@@ -4,7 +4,7 @@ const fs = require('fs')
 const uuid = require('uuid');
 const path = require('path')
 const jwt = require('jsonwebtoken')
-
+require('dotenv').config()
 
 // Api đăng nhập 
 exports.signIn = async (req, res, next) => {
@@ -47,7 +47,7 @@ exports.updateAvatar = async (req, res, next) => {
     }
     await sequelize.query('UPDATE nguoi_dung SET avatar = :avatar WHERE ma_nd = :user_id', {
       replacements: {
-        avatar: "http://149.28.145.107:8000/" + pathAvatar,
+        avatar: process.env.IP_SERVER + pathAvatar,
         user_id
       }
     })
