@@ -59,13 +59,23 @@ router.post('/getplacesinrange', async (req, res, next) => {
         var places = await sequelize.query('SELECT * FROM dia_diem', {
             type: Sequelize.QueryTypes.SELECT,            
         })
-        
+        let results = []
         places.forEach(x=>{
-            console.log(x.toa_do)
+            const start = {
+                latitude : coordinate.lat,
+                longitude : coordinate.lng
+            }
+            const end = {
+                latitude : x.toa_do.lat,
+                longitude : x.toa_do.lng
+            }
+            const d = haversine(start, end, {unit: 'meter'})            
+            if(d<distance){
+                results.push(x)
+            }
         })
-        return res.send("1")
-    } catch (err) {
-        console.log(err)
+        return res.json({message:"Lấy danh sách thành công",results})
+    } catch (err) {        
         return res.sendStatus(500)
     }
 })
@@ -107,8 +117,7 @@ router.post('/insertplacefromuser',upload.any(),async(req,res,next)=>{
             throw new Error()
         })
         
-    }catch(err){  
-        console.log(err)      
+    }catch(err){          
         return res.sendStatus(500)
     }
 })
