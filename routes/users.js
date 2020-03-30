@@ -6,6 +6,8 @@ var jwt = require('jsonwebtoken');
 const multer = require('multer');
 const fs = require('fs')
 const upload = multer();
+const uuid = require('uuid')
+const path = require('path')
 /* GET users listing. */
 
 
@@ -29,17 +31,25 @@ router.post('/signin', async (req, res, next) => {
     return res.sendStatus(500)
   }
 })
-router.post('/updateprofile', upload.single('avatar'), async (req, res, next) => {
+router.post('/updateavatar',upload.single('avatar'),async(req,res,next)=>{
   try {
-    const token = req.headers["authorization"]    
+      const avatar = req.file
+      const  avatarPath = require('path').join('./uploads').concat(uuid.v4() + req)
+  }catch(err){
+
+  }
+})
+router.post('/updateprofile', async (req, res, next) => {
+  try {
+    const token = req.headers["authorization"]
     const decoded = jwt.verify(token, 'secret', (err, decoded) => {
       if (err) throw (err)
       return decoded
     })
     const user_id = decoded.id
-    const { first_name, last_name ,birth_day,phone,email} = req.body
-    await sequelize.query('UPDATE nguoi_dung SET  ho_nd = COALESCE(ho_nd,:first_name), ten_nd = COALESCE(ten_nd,:last_name), email = COALESCE(email,:email), sdt = COALESCE(sdt,:phone), ngay_sinh = COALESCE(ngay_sinh,:birth_day)  WHERE nguoi_dung.ma_nd = :user_id',{
-      replacements : {
+    const { first_name, last_name, birth_day, phone, email } = req.body
+    await sequelize.query('UPDATE nguoi_dung SET  ho_nd = COALESCE(ho_nd,:first_name), ten_nd = COALESCE(ten_nd,:last_name), email = COALESCE(email,:email), sdt = COALESCE(sdt,:phone), ngay_sinh = COALESCE(ngay_sinh,:birth_day)  WHERE nguoi_dung.ma_nd = :user_id', {
+      replacements: {
         first_name,
         last_name,
         birth_day,

@@ -71,7 +71,7 @@ router.post('/getallfromdetail', async (req, res, next) => {
 router.post('/getplacesinrange', async (req, res, next) => {
     try {
         const { distance, coordinate } = req.body
-        var places = await sequelize.query('SELECT * FROM dia_diem', {
+        var places = await sequelize.query('SELECT dia_diem.*,COALESCE(AVG(danh_gia.rating),0) as rating, COALESCE(count(danh_gia.rating),0)  as count FROM dia_diem LEFT JOIN danh_gia ON dia_diem.ma_dd = danh_gia.ma_dd LEFT JOIN nd_yeu_thich_dia_diem on nd_yeu_thich_dia_diem.ma_dd = dia_diem.ma_dd GROUP BY dia_diem.ma_dd', {
             type: Sequelize.QueryTypes.SELECT,            
         })
         let results = []
