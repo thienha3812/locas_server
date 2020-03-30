@@ -22,7 +22,7 @@ router.get('/all', async (req, res, next) => {
 })
 router.post('/getplacesfromward', async (req, res, next) => {
     try {
-        const { ward } = req.body
+        const { ward } = req.body // Mã xã phường
         const places = await sequelize.query("SELECT dia_diem.*,AVG(danh_gia.rating ) as rating FROM dia_diem LEFT JOIN danh_gia ON danh_gia.ma_dd = dia_diem.ma_dd WHERE ma_xap = :ward GROUP BY dia_diem.ma_dd ORDER BY rating DESC", {
             replacements: {
                 ward: ward
@@ -33,6 +33,21 @@ router.post('/getplacesfromward', async (req, res, next) => {
     } catch (err) {
         return res.sendStatus(500)
     }
+})
+router.post('/getallfromwardid', async( req,res,next)=>{
+        try {
+            const  {ward_id} = req.body // Mã xã phường
+            const places = await sequelize.query('SELECT * FROM xa_phuong LEFT JOIN quan_huyen ON quan_huyen.ma_qh = xa_phuong.ma_qh LEFT JOIN tinh_thanh ON tinh_thanh.ma_tinh = quan_huyen.ma_tinh WHERE xa_phuong.ma_xap = :ward_id',{
+                replacements : {
+                    ward_id : ward_id,
+                },
+                type : Sequelize.QueryTypes.SELECT
+            })
+            return res.status(200).json({places,message : "Lấy danh sách thành công",code:1})
+            
+        }catch(err){
+            return res.sendStatus(500)
+        }
 })
 router.post('/getallfromdetail', async (req, res, next) => {
     try {
