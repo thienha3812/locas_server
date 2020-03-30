@@ -9,6 +9,9 @@ const upload = multer();
 const uuid = require('uuid');
 const path = require('path')
 const jwt = require('jsonwebtoken')
+
+
+
 router.get('/all', async (req, res, next) => {
     try {
         const places = await sequelize.query('SELECT * FROM danh_muc_loai_dia_diem', {
@@ -136,5 +139,11 @@ router.post('/insertplacefromuser',upload.any(),async(req,res,next)=>{
         return res.sendStatus(500)
     }
 })
+router.post('/addfavoriteplacefromuser',async(req,res,next)=>{
+    try { 
 
+    }catch(err){
+        
+    }
+})
 module.exports = router

@@ -52,8 +52,7 @@ router.post('/updateavatar', upload.single('avatar'), async (req, res, next) => 
     })    
     fs.writeFileSync(pathAvatar, avatar.buffer)
     return res.json({message : "Chỉnh sửa ảnh thành công",code : 1})
-  } catch (err) {
-    console.log(err)
+  } catch (err) {    
     return res.sendStatus(500)
   }
 })
@@ -63,22 +62,16 @@ router.post('/updateprofile', async (req, res, next) => {
     const decoded = jwt.verify(token, 'secret', (err, decoded) => {
       if (err) throw (err)
       return decoded
-    })
+    })        
     const user_id = decoded.id
     const { first_name, last_name, birth_day, phone, email } = req.body
-    await sequelize.query('UPDATE nguoi_dung SET  ho_nd = COALESCE(ho_nd,:first_name), ten_nd = COALESCE(ten_nd,:last_name), email = COALESCE(email,:email), sdt = COALESCE(sdt,:phone), ngay_sinh = COALESCE(ngay_sinh,:birth_day)  WHERE nguoi_dung.ma_nd = :user_id', {
-      replacements: {
-        first_name,
-        last_name,
-        birth_day,
-        phone,
-        email,
-        user_id
-      },
+    const query = `UPDATE nguoi_dung SET ho_nd = ${first_name != null ? first_name : 'ho_nd'}, ten_nd = ${last_name != null ? last_name : 'ten_nd'}, ngay_sinh = ${birth_day != null ? birth_day : 'ngay_sinh'}, sdt = ${phone != null ? phone : 'sdt'},email = ${email != null ? email :'email'} WHERE ma_nd = ${user_id}`        
+    await sequelize.query(query, {      
       type: Sequelize.QueryTypes.UPDATE
     })
     return res.json({ message: "Cập nhật thành công", code: 1 })
   } catch (err) {
+    console.log(err)
     return res.sendStatus(500)
   }
 })
