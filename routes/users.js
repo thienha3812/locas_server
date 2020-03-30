@@ -1,13 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const sequelize = require('../database/connect')
-const Sequelize = require('sequelize')
-var jwt = require('jsonwebtoken');
 const multer = require('multer');
-const fs = require('fs')
 const upload = multer();
-const uuid = require('uuid')
-const path = require('path')
 const usersController = require('../controller/usersController')
 
 
