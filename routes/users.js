@@ -42,19 +42,18 @@ router.post('/updateavatar', upload.single('avatar'), async (req, res, next) => 
     //
     const avatar = req.file
     await sequelize.query
-    const pathAvatar = path.join('./uploads/').concat(uuid.v4() + path.extname(avatar.originalname))
-    //
-    sequelize.query('UPDATE nguoi_dung SET avatar = :avatar WHERE ma_nd = :user_id',{
-      replacements:{
-        avatar : "http://149.28.145.107:8000/" + pathAvatar,
-        user_id
-      }
-    })
+    const pathAvatar = path.join('./uploads/').concat(uuid.v4() + path.extname(avatar.originalname))    
     // Check file type
     const validImageTypes = ['image/gif', 'image/jpeg', 'image/png']; 
     if(!validImageTypes.includes(req.file.mimetype)){
       return res.json({message : "Lỗi định dạng file", code : 0})
     } 
+    await sequelize.query('UPDATE nguoi_dung SET avatar = :avatar WHERE ma_nd = :user_id',{
+      replacements:{
+        avatar : "http://149.28.145.107:8000/" + pathAvatar,
+        user_id
+      }
+    })    
     //    
     fs.writeFileSync(pathAvatar, avatar.buffer)
     return res.json({message : "Chỉnh sửa ảnh thành công",code : 1})
