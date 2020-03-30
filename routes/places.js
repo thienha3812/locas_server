@@ -57,14 +57,13 @@ router.post('/getplacesinrange', async (req, res, next) => {
     try {
         const { distance, coordinate } = req.body
         var places = await sequelize.query('SELECT * FROM dia_diem', {
-            type: Sequelize.QueryTypes.SELECT,
-            raw : true,
+            type: Sequelize.QueryTypes.SELECT,            
         })
         
         places.forEach(x=>{
-            console.log(x)
+            console.log(x.toa_do)
         })
-        return res.send(_x)
+        return res.send("1")
     } catch (err) {
         console.log(err)
         return res.sendStatus(500)
@@ -87,7 +86,7 @@ router.post('/insertplacefromuser',upload.any(),async(req,res,next)=>{
             replacements : {
                 ten_dd : ten_dd,
                 mo_ta : mo_ta,
-                toa_do : JSON.stringify(toa_do),
+                toa_do : toa_do,
                 logo : 'http://149.28.145.107:8000/' + logoPath,
                 gio_mo_cua : gio_mo_cua,
                 gio_dong_cua : gio_dong_cua,
@@ -108,7 +107,8 @@ router.post('/insertplacefromuser',upload.any(),async(req,res,next)=>{
             throw new Error()
         })
         
-    }catch(err){        
+    }catch(err){  
+        console.log(err)      
         return res.sendStatus(500)
     }
 })
