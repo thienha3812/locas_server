@@ -104,6 +104,12 @@ router.post('/insertplacefromuser', upload.any(), async (req, res, next) => {
             if (err) throw (err)
             return decoded
         })
+        const validImageTypes = ['image/gif', 'image/jpeg', 'image/png']; 
+        req.files.forEach(file=>{
+            if(!validImageTypes.includes(file.mimetype)){
+                return res.json({message : "Lỗi định dạng file", code : 0})
+            }
+        })
         const user_id = decoded.id
         const image = req.files.filter(x => x.fieldname === 'hinh_anh')[0]
         const logo = req.files.filter(x => x.fieldname === 'logo')[0] != null ? eq.files.filter(x => x.fieldname === 'logo')[0] : null

@@ -49,7 +49,13 @@ router.post('/updateavatar', upload.single('avatar'), async (req, res, next) => 
         avatar : "http://149.28.145.107:8000/" + pathAvatar,
         user_id
       }
-    })    
+    })
+    // Check file type
+    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png']; 
+    if(!validImageTypes.includes(req.file.mimetype)){
+      return res.json({message : "Lỗi định dạng file", code : 0})
+    } 
+    //    
     fs.writeFileSync(pathAvatar, avatar.buffer)
     return res.json({message : "Chỉnh sửa ảnh thành công",code : 1})
   } catch (err) {    
