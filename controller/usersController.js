@@ -199,3 +199,38 @@ exports.getFavoritePlacesFromUser = async (req, res, next) => {
     return res.sendStatus(500)
   }
 }
+exports.insertRatingFromUser = async (req,res,next) => {
+  try {
+    //    
+    const token = req.headers["authorization"]
+    const decoded = jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) throw (err)
+      return decoded
+    })
+    const user_id = decoded.id
+    //
+    const {description,place_id,rating} = req.body
+    let imagesPath = []
+    for(e of req.files){
+      imagesPath.push(path.join('./uploads/').concat(uuid.v4() + path.extname(e.originalname)))
+    }
+    await sequelize.query('INSERT INTO public.danh_gia(description, rating, anh_1, anh_2, anh_3, nguoi_dg, ma_dd) VALUES (:description, :rating, :image1, :image2, :image3, :user_id, :place_id)',{
+      replacements : {
+        description,
+        rating,
+        place_id,
+        user_id,
+        image1 : process.env.IP_SERVER + imagesPath[0],
+        image2 : process.env.IP_SERVER + imagesPath[1],
+        image3 : process.env.IP_SERVER + imagesPath[2]
+      }
+    })
+    for(i in req.files){
+      fs.writeFileSync(imagesPath[i],req.files[i].buffer)
+    }
+
+    return res.status(200).json({message : "Thêm đánh giá thành công",code:1})
+  }catch(err) {
+    return res.sendStatus(500)
+  }
+}
