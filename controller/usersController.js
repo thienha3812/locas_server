@@ -41,6 +41,7 @@ exports.updateAvatar = async (req, res, next) => {
     await sequelize.query
     const pathAvatar = path.join('./uploads/').concat(uuid.v4() + path.extname(avatar.originalname))
     // Check file type
+    console.log(req.file)
     const validImageTypes = ['image/gif', 'image/jpg', 'image/png'];
     if (!validImageTypes.includes(req.file.mimetype)) {
       return res.json({ message: "Lỗi định dạng file", code: 0 })

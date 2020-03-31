@@ -17,6 +17,7 @@ exports.insertPlaceFromUser = async (req, res, next) => {
         })
         const validImageTypes = ['image/gif', 'image/jpg', 'image/png'];
         //Kiểm tra định dang file
+        console.log(req.files)
         req.files.forEach(file => {
             if (!validImageTypes.includes(file.mimetype)) {
                 return res.json({ message: "Lỗi định dạng file", code: 0 })
