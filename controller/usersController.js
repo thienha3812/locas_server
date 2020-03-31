@@ -267,10 +267,11 @@ exports.deleteFavoritePlaceFromUser = async(req,res,next) =>{
       return decoded
     })
     const user_id = decoded.id
-    const {rating_id} = req.body
-    await sequelize.query('DELETE FROM nd_yeu_thich_dia_diem WHERE  ma_yt = :rating_id',{
+    const {favorite_id} = req.body
+    await sequelize.query('DELETE FROM nd_yeu_thich_dia_diem WHERE  ma_yt = :favorite_id AND ma_nd = :user_id',{
       replacements: {
-        rating_id
+        favorite_id,
+        user_id
       },
       type  : Sequelize.QueryTypes.DELETE
     })
