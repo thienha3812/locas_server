@@ -10,6 +10,5 @@ router.post('/getallfromwardid', placesController.getAllFromWardId)
 router.post('/getallfromdetail',placesController.getAllFromDetail )
 router.post('/getplacesinrange', placesController.getPlacesInRange)
 router.post('/insertplacefromuser', upload.any(),placesController.insertPlaceFromUser)
-
-
+router.post('/getrating',placesController.getRating)
 module.exports = router

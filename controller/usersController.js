@@ -19,7 +19,7 @@ exports.signIn = async (req, res, next) => {
     })
     if (account.length != 0) {
       const token = await jwt.sign({ username: account[0].username, id: account[0].ma_nd }, 'secret', { algorithm: 'HS512' })
-      return res.status(200).json({ message: "Đăng nhập thành công", token, username: account[0].username, avatar: account[0].avatar, first_name: account[0].ho_nd, last_name: account[0].ten_nd, phone: account[0].sdt, email: account[0].email,birth_day : account[0].ngay_sinh, code: 1 })
+      return res.status(200).json({ message: "Đăng nhập thành công", token, username: account[0].username, avatar: account[0].avatar, first_name: account[0].ho_nd, last_name: account[0].ten_nd, phone: account[0].sdt, email: account[0].email, birth_day: account[0].ngay_sinh, code: 1 })
     } else {
       return res.status(200).json({ message: "Đăng nhập thất bại", code: 0 })
     }
@@ -232,6 +232,29 @@ exports.insertRatingFromUser = async (req, res, next) => {
 
     return res.status(200).json({ message: "Thêm đánh giá thành công", code: 1 })
   } catch (err) {
+    return res.sendStatus(500)
+  }
+}
+
+// Thêm đánh giá
+exports.insertFavoritePlaceFromUser = async (req, res, next) => {
+  try {
+    const token = req.headers["authorization"]
+    const decoded = jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) throw (err)
+      return decoded
+    })
+    const user_id = decoded.id
+    const {place_id} = req.body
+    await sequelize.query('INSERT INTO nd_yeu_thich_dia_diem(ma_nd,ma_dd) VALUES(:user_id,:place_id',{
+      replacements : {
+        user_id,
+        place_id
+      },
+      type : Sequelize.QueryTypes.INSERT
+    })  
+    return res.status(200).json({message:"Thêm thành công",code :1})
+  }catch(err){
     return res.sendStatus(500)
   }
 }

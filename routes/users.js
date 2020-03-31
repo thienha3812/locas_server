@@ -15,5 +15,6 @@ router.post('/signup', usersController.signUp)
 router.post('/updatelastcoordinate', usersController.updateLastCoordinate)
 router.get('/getfavoriteplacesfromuser', usersController.getFavoritePlacesFromUser)
 router.post('/insertratingfromuser',upload.any(),usersController.insertRatingFromUser)
+router.post('/insertfavoriteplacefromuser', usersController.insertFavoritePlaceFromUser)
 
 module.exports = router;

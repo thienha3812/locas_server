@@ -152,3 +152,18 @@ exports.getAllCategoryOfPlaces  = async (req, res, next) => {
         res.status(500)
     }
 }
+exports.getRating = async(req,res,next) =>{
+    try {
+        const {place_id} = req.body
+        const ratings  = await sequelize.query('SELECT * FROM danh_gia WHERE ma_dd = :place_id',{
+            replacements : {
+                place_id
+            },
+            type : Sequelize.QueryTypes.SELECT
+        })
+        return res.status(200).json({ratings,message:"Lấy danh sách thành công",code : 1})
+    }catch(err){
+        console.log(err)
+        return res.sendStatus(500)
+    }
+}
