@@ -246,7 +246,7 @@ exports.insertFavoritePlaceFromUser = async (req, res, next) => {
     })
     const user_id = decoded.id
     const {place_id} = req.body
-    await sequelize.query('INSERT INTO nd_yeu_thich_dia_diem(ma_nd,ma_dd) VALUES(:user_id,:place_id',{
+    await sequelize.query('INSERT INTO nd_yeu_thich_dia_diem(ma_nd,ma_dd) VALUES(:user_id,:place_id)',{
       replacements : {
         user_id,
         place_id
@@ -255,6 +255,7 @@ exports.insertFavoritePlaceFromUser = async (req, res, next) => {
     })  
     return res.status(200).json({message:"Thêm thành công",code :1})
   }catch(err){
+    console.log(err)
     return res.sendStatus(500)
   }
 }
