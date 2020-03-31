@@ -69,7 +69,9 @@ exports.updateProfile = async (req, res, next) => {
     })
     const user_id = decoded.id
     const { first_name, last_name, birth_day, phone, email } = req.body
-    const query = `UPDATE nguoi_dung SET ho_nd = ${first_name != null ? first_name : 'ho_nd'}, ten_nd = ${last_name != null ? last_name : 'ten_nd'}, ngay_sinh = ${birth_day != null ? birth_day : 'ngay_sinh'}, sdt = ${phone != null ? phone : 'sdt'},email = ${email != null ? email : 'email'} WHERE ma_nd = ${user_id}`
+    console.log(birth_day)
+    const query = `UPDATE nguoi_dung SET ho_nd = ${first_name != null ? first_name : 'ho_nd'}, ten_nd = ${last_name != null ? last_name : 'ten_nd'}, ngay_sinh = ${birth_day != null ? '\''+ birth_day + '\'' : 'ngay_sinh'}, sdt = ${phone != null ? phone : 'sdt'},email = ${email != null ? email : 'email'} WHERE ma_nd = ${user_id}`
+    console.log(query)
     await sequelize.query(query, {
       type: Sequelize.QueryTypes.UPDATE
     })
