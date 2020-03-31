@@ -19,7 +19,7 @@ exports.signIn = async (req, res, next) => {
     })
     if (account.length != 0) {
       const token = await jwt.sign({ username: account[0].username, id: account[0].ma_nd }, 'secret', { algorithm: 'HS512' })
-      return res.status(200).json({ message: "Đăng nhập thành công", token, username: account[0].username, avatar: account[0].avatar, code: 1 })
+      return res.status(200).json({ message: "Đăng nhập thành công", token, username: account[0].username, avatar: account[0].avatar, first_name: account[0].ho_nd, last_name: account[0].ten_nd, phone: account[0].sdt, email: account[0].email,birth_day : account[0].ngay_sinh, code: 1 })
     } else {
       return res.status(200).json({ message: "Đăng nhập thất bại", code: 0 })
     }
