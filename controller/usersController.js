@@ -69,7 +69,7 @@ exports.updateProfile = async (req, res, next) => {
     const user_id = decoded.id
     const { first_name, last_name, birth_day, phone, email } = req.body
     console.log(birth_day)
-    const query = `UPDATE nguoi_dung SET ho_nd = ${first_name != null ? first_name : 'ho_nd'}, ten_nd = ${last_name != null ? last_name : 'ten_nd'}, ngay_sinh = ${birth_day != null ? '\''+ birth_day + '\'' : 'ngay_sinh'}, sdt = ${phone != null ? phone : 'sdt'},email = ${email != null ? email : 'email'} WHERE ma_nd = ${user_id}`
+    const query = `UPDATE nguoi_dung SET ho_nd = ${first_name != null ? '\'' + first_name + '\'' : 'ho_nd'}, ten_nd = ${last_name != null ? '\'' + last_name + '\'' : 'ten_nd'}, ngay_sinh = ${birth_day != null ? '\'' + birth_day + '\'' : 'ngay_sinh'}, sdt = ${phone != null ? '\'' + phone + '\'' : 'sdt'},email = ${email != null ? '\'' + email + '\'' : 'email'} WHERE ma_nd = ${user_id}`
     console.log(query)
     await sequelize.query(query, {
       type: Sequelize.QueryTypes.UPDATE
@@ -200,7 +200,7 @@ exports.getFavoritePlacesFromUser = async (req, res, next) => {
     return res.sendStatus(500)
   }
 }
-exports.insertRatingFromUser = async (req,res,next) => {
+exports.insertRatingFromUser = async (req, res, next) => {
   try {
     //    
     const token = req.headers["authorization"]
@@ -210,28 +210,28 @@ exports.insertRatingFromUser = async (req,res,next) => {
     })
     const user_id = decoded.id
     //
-    const {description,place_id,rating} = req.body
+    const { description, place_id, rating } = req.body
     let imagesPath = []
-    for(e of req.files){
+    for (e of req.files) {
       imagesPath.push(path.join('./uploads/').concat(uuid.v4() + path.extname(e.originalname)))
     }
-    await sequelize.query('INSERT INTO public.danh_gia(description, rating, anh_1, anh_2, anh_3, nguoi_dg, ma_dd) VALUES (:description, :rating, :image1, :image2, :image3, :user_id, :place_id)',{
-      replacements : {
+    await sequelize.query('INSERT INTO public.danh_gia(description, rating, anh_1, anh_2, anh_3, nguoi_dg, ma_dd) VALUES (:description, :rating, :image1, :image2, :image3, :user_id, :place_id)', {
+      replacements: {
         description,
         rating,
         place_id,
         user_id,
-        image1 : process.env.IP_SERVER + imagesPath[0],
-        image2 : process.env.IP_SERVER + imagesPath[1],
-        image3 : process.env.IP_SERVER + imagesPath[2]
+        image1: process.env.IP_SERVER + imagesPath[0],
+        image2: process.env.IP_SERVER + imagesPath[1],
+        image3: process.env.IP_SERVER + imagesPath[2]
       }
     })
-    for(i in req.files){
-      fs.writeFileSync(imagesPath[i],req.files[i].buffer)
+    for (i in req.files) {
+      fs.writeFileSync(imagesPath[i], req.files[i].buffer)
     }
 
-    return res.status(200).json({message : "Thêm đánh giá thành công",code:1})
-  }catch(err) {
+    return res.status(200).json({ message: "Thêm đánh giá thành công", code: 1 })
+  } catch (err) {
     return res.sendStatus(500)
   }
 }
