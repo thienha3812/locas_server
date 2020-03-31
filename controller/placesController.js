@@ -25,7 +25,7 @@ exports.insertPlaceFromUser = async (req, res, next) => {
         })
         const user_id = decoded.id
         const image = req.files.filter(x => x.fieldname === 'hinh_anh')[0]
-        const logo = req.files.filter(x => x.fieldname === 'logo')[0] != null ? eq.files.filter(x => x.fieldname === 'logo')[0] : null
+        const logo = req.files.filter(x => x.fieldname === 'logo')[0] != null ? req.files.filter(x => x.fieldname === 'logo')[0] : null
         const { ten_dd, mo_ta, toa_do, gio_mo_cua, gio_dong_cua, ma_dm, ma_xap, dia_chi, luoc_su } = req.body
         const imagePath = path.join('./uploads/').concat(uuid.v4() + path.extname(image.originalname))
         let logoPath
