@@ -155,7 +155,7 @@ exports.getAllCategoryOfPlaces  = async (req, res, next) => {
 exports.getRating = async(req,res,next) =>{
     try {
         const {place_id} = req.body
-        const ratings  = await sequelize.query('SELECT * FROM danh_gia WHERE ma_dd = :place_id',{
+        const ratings  = await sequelize.query('SELECT * FROM danh_gia LEFT JOIN nguoi_dung ON nguoi_dung.ma_nd = danh_gia.nguoi_dg WHERE ma_dd = :place_id ',{
             replacements : {
                 place_id
             },
