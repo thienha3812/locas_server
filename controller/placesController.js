@@ -15,7 +15,7 @@ exports.insertPlaceFromUser = async (req, res, next) => {
             if (err) throw (err)
             return decoded
         })
-        const validImageTypes = ['image/gif', 'image/jpg', 'image/png'];
+        const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
         //Kiểm tra định dang file
         console.log(req.files)
         req.files.forEach(file => {
