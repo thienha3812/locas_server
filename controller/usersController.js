@@ -259,3 +259,23 @@ exports.insertFavoritePlaceFromUser = async (req, res, next) => {
     return res.sendStatus(500)
   }
 }
+exports.deleteFavoritePlaceFromUser = async(req,res,next) =>{
+  try { 
+    const token = req.headers["authorization"]
+    const decoded = jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) throw (err)
+      return decoded
+    })
+    const user_id = decoded.id
+    const {rating_id} = req.body
+    await sequelize.query('DELETE FROM nd_yeu_thich_dia_diem WHERE  ma_yt = :rating_id',{
+      replacements: {
+        rating_id
+      },
+      type  : Sequelize.QueryTypes.DELETE
+    })
+    return res.status(200).json({message : "Xoá thành công",code : 1})
+  }catch(err){
+    return res.sendStatus(500)
+  }
+}
