@@ -223,8 +223,8 @@ exports.insertRatingFromUser = async (req, res, next) => {
         place_id,
         user_id,
         image1: process.env.IP_SERVER + imagesPath[0],
-        image2: process.env.IP_SERVER + imagesPath[1],
-        image3: process.env.IP_SERVER + imagesPath[2]
+        image2: imagesPath[1] == undefined ? process.env.IP_SERVER + imagesPath[1] : '',
+        image3: imagesPath[2] == undefined ? process.env.IP_SERVER + imagesPath[2] : ''
       }
     })
     for (i in req.files) {
