@@ -232,6 +232,7 @@ exports.insertRatingFromUser = async (req, res, next) => {
 
     return res.status(200).json({ message: "Thêm đánh giá thành công", code: 1 })
   } catch (err) {
+    console.log(err)
     return res.sendStatus(500)
   }
 }
