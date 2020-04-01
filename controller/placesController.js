@@ -5,6 +5,7 @@ const fs = require('fs')
 const uuid = require('uuid');
 const path = require('path')
 const jwt = require('jsonwebtoken')
+const moment = require('moment')
 require('dotenv').config()
 
 /// Thêm địa điểm từ người dùng
@@ -160,6 +161,12 @@ exports.getRating = async(req,res,next) =>{
                 place_id
             },
             type : Sequelize.QueryTypes.SELECT
+        })
+        ratings.forEach(x=>{
+            x['dg_ngay_sua'] = moment(x.dg_ngay_sua).format('YYYY-MM-DD h:m')
+            x['dg_ngay_tao'] = moment(x.dg_ngay_tao).format('YYYY-MM-DD h:m')
+            x['nguoi_dung_ngay_tao'] = moment(x.nguoi_dung_ngay_tao).format('YYYY-MM-DD h:m')
+            x['nguoi_dung_ngay_sua'] = moment(x.nguoi_dung_ngay_sua).format('YYYY-MM-DD h:m')
         })
         return res.status(200).json({ratings,message:"Lấy danh sách thành công",code : 1})
     }catch(err){

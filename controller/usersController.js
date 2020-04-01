@@ -24,6 +24,7 @@ exports.signIn = async (req, res, next) => {
       return res.status(200).json({ message: "Đăng nhập thất bại", code: 0 })
     }
   } catch (e) {
+    console.log(e)
     return res.sendStatus(500)
   }
 }
